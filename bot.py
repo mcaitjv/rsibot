@@ -11,7 +11,6 @@ import re,requests
 client = Client(config.API_KEY, config.API_SECRET)
 engine = sqlalchemy.create_engine('sqlite:///tether_usdtry.db')
 
-i=0
 while True:
     closes = []
     sleep(60 - time() % 60)
