@@ -50,8 +50,6 @@ while True:
         if df.Tether.iloc[-1] < df.Kur.iloc[-1]:
             if abs(df.Tether.iloc[-1] - df.Kur.iloc[-1]) / df.Tether.iloc[-1]>0.000006:
                 order_succeeded = order(SIDE_BUY, TRADE_QUANTITY, TRADE_SYMBOL)
-                if order_succeeded:
-                        print("Robot ilk tetherini aldı. Ademe girsin.")
             else:
                 print("sell")
     except:
