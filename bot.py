@@ -34,18 +34,44 @@ conn = sqlite3.connect("tether_usdtry.db")
 n = random. randint(0,22)
 
 while True:
-    n = random. randint(45,59)
+    n = random. randint(1,10)
     closes = []
+    fark = []
     sleep(n - time() % n)
+
     usdttry_price = client.get_symbol_ticker(symbol="USDTTRY")
     now = datetime.datetime.now().strftime("%H:%M")
     response = requests.get('https://kurlar.altin.in/guncel.asp')
     r = response.content.decode("utf-8")
     kur = re.findall(r"dolar_guncelle\('(.*?)',",r)[0]
+
+
+
+
     closes.append([now,float(usdttry_price['price']),float(kur)])
+    print(closes)
+
     closes = pd.DataFrame(closes,columns=['Time','Tether','Kur'])
+
+    if closes.Kur.iloc[-1] > closes.Tether.iloc[-1]:
+            fark = (closes.Kur - closes.Tether) / closes.Tether*100
+    else:
+            fark = (closes.Tether - closes.Kur) / closes.Kur*100
+
+    print(fark)
+    print(type(fark))
+    closes.append(fark,ignore_index=True)
+
+    closes['fark'] = fark
+
     closes.to_sql('USDTTRY', engine, if_exists = 'append', index = False)
-    df = pd.read_sql("select * from USDTTRY", con=conn)
+
+    print(closes)
+
+
+
+
+    """ df = pd.read_sql("select * from USDTTRY", con=conn)
     try:
         if df.Tether.iloc[-1] < df.Kur.iloc[-1]:
             if abs(df.Tether.iloc[-1] - df.Kur.iloc[-1]) / df.Tether.iloc[-1]>0.000006:
@@ -53,6 +79,6 @@ while True:
             else:
                 print("sell")
     except:
-        print("error")
+        print("error")  """
 
 
