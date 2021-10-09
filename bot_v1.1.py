@@ -13,6 +13,7 @@ import sqlite3
 import random
 import talib
 import numpy as np
+import config
 
 FARK_ORANI_AL = 0.7
 FARK_ORANI_SAT = 0.1
@@ -21,9 +22,6 @@ SIDE_BUY = "BUY"
 TRADE_SYMBOL = "USDTTRY"
 TRADE_QUANTITY = 3
 EMA_LENGTH = 8
-
-API_KEY = "ClXIvMPkI1jEXxvJDU4e6HbCTO8yIlJ1Rf7WSNhIIpCR3vM1v8gGPe0BbBXAIijJ"
-API_SECRET = "Gk8Z6w6unVHXRpfyov9YcLlGkGR0A3fxQzSHoApzccH7XITB7k1CIO6kSjYFUQfB"
 
 #order fonksiyonları
 def order(side, quantity, symbol, order_type=ORDER_TYPE_MARKET):
@@ -41,7 +39,7 @@ def order(side, quantity, symbol, order_type=ORDER_TYPE_MARKET):
 
 
 # apiye client
-client = Client(API_KEY, API_SECRET, tld="com")
+client = Client(config.API_KEY, config.API_SECRET, tld="com")
 
 
 # random time determining for not beeing banned from altin.in
