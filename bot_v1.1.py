@@ -83,8 +83,8 @@ while True:
     closes.append([now, float(usdttry_price["price"]), float(kur), ema])
 
     # strateji
-    # eğer kur tetherdan büyükse ve aradaki fark yüzdesi 0.45 den büyükse ve tether fiyatı ema8den büyükse al, posizyon alındı olsun,
-    # daha sonra aradaki fark 0.1in altına düştüğünde ve o anda pozisyonda isek sat, pozisyonu boşalt
+    # eğer kur tetherdan büyükse ve aradaki fark yüzdesi FARK_ORANI_AL den büyükse ve tether fiyatı emadan büyükse al, posizyon alındı olsun,
+    # daha sonra aradaki fark FARK_ORANI_SAT'in altına düştüğünde ve o anda pozisyonda isek sat, pozisyonu boşalt
 
     # eğer kur tetherdan büyükse
     if closes[0][2] > closes[0][1]:
@@ -95,9 +95,9 @@ while True:
 
         # eğer pozisyonda değilsek bu bloğa bakacak
         if in_position == False:
-            # eğer kur ile tether arasındaki fark 0.95 den büyükse
+            # eğer kur ile tether arasındaki fark FARK_ORANI_AL den büyükse
             if fark >= FARK_ORANI_AL:
-                # ve tether fiyatı ema8in üzerine cıkmışsa
+                # ve tether fiyatı emanin üzerine cıkmışsa
                 if closes[0][1] > ema:
                     # buy order
                     print("buy")
@@ -112,7 +112,7 @@ while True:
 
         # eğer pozisyonda isek bu bloğa bakacak
         if in_position == True:
-            # eğer fark oranı 0.1den küçükse
+            # eğer fark oranı FARK_ORANI_SAT'den küçükse
             if fark <= FARK_ORANI_SAT:
                 # sell order
                 print("Sell")
