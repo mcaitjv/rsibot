@@ -1,3 +1,7 @@
+#sqle yazdıktan sonra okuyup analiz etmeyi dene
+# ya da dfye append etmeden eklemeyi dene
+
+
 from datetime import time
 import config
 from binance.client import Client
@@ -8,6 +12,9 @@ from time import time, sleep
 import re,requests
 import sqlite3
 import random
+import talib as ta
+import numpy as np
+
 
 ORDER_TYPE_MARKET = 'MARKET'
 SIDE_BUY = 'BUY'
@@ -26,59 +33,63 @@ def order(side, quantity, symbol,order_type=ORDER_TYPE_MARKET):
 
     return True
 
+#apiye client 
 client = Client(config.API_KEY, config.API_SECRET, tld = "com")
+#sql engine
 engine = sqlalchemy.create_engine('sqlite:///tether_usdtry.db')
-
+#sql connection
 conn = sqlite3.connect("tether_usdtry.db")
 
-n = random. randint(0,22)
+# random time determining for not beeing banned from altin.in
+n = random. randint(5,15)
+
+#to determine if in position or not
+in_position = False
+ema = []
 
 while True:
-    n = random. randint(1,10)
     closes = []
     fark = []
     sleep(n - time() % n)
+    
 
     usdttry_price = client.get_symbol_ticker(symbol="USDTTRY")
+ 
     now = datetime.datetime.now().strftime("%H:%M")
+
     response = requests.get('https://kurlar.altin.in/guncel.asp')
     r = response.content.decode("utf-8")
+ 
     kur = re.findall(r"dolar_guncelle\('(.*?)',",r)[0]
 
 
-
-
     closes.append([now,float(usdttry_price['price']),float(kur)])
-    print(closes)
-
     closes = pd.DataFrame(closes,columns=['Time','Tether','Kur'])
 
+    ema.append(usdttry_price['price'])
+
+
     if closes.Kur.iloc[-1] > closes.Tether.iloc[-1]:
-            fark = (closes.Kur - closes.Tether) / closes.Tether*100
-    else:
-            fark = (closes.Tether - closes.Kur) / closes.Kur*100
+        
+        fark = (closes.Kur.iloc[-1]- closes.Tether.iloc[-1]) / closes.Tether.iloc[-1]*100
+        print(fark)
+        
+        if fark >= 0.95:
+            if not in_position:
+                print("buy")
+                in_position = True
+            else:
+                print("already in position")
 
-    print(fark)
-    print(type(fark))
-    closes.append(fark,ignore_index=True)
+        if fark < 0.1:
+            if in_position:
+                print("Sell")
+                in_position = False
+        else:
+            print("don't do anything")
 
-    closes['fark'] = fark
 
     closes.to_sql('USDTTRY', engine, if_exists = 'append', index = False)
 
     print(closes)
-
-
-
-
-    """ df = pd.read_sql("select * from USDTTRY", con=conn)
-    try:
-        if df.Tether.iloc[-1] < df.Kur.iloc[-1]:
-            if abs(df.Tether.iloc[-1] - df.Kur.iloc[-1]) / df.Tether.iloc[-1]>0.000006:
-                order_succeeded = order(SIDE_BUY, TRADE_QUANTITY, TRADE_SYMBOL)
-            else:
-                print("sell")
-    except:
-        print("error")  """
-
-
+    
