@@ -38,8 +38,9 @@ def order(side, quantity, symbol, order_type=ORDER_TYPE_MARKET):
     return True
 
 
-# apiye client
-client = Client(config.API_KEY, config.API_SECRET, tld="com")
+# apiye client 
+# timeout parametresi, read.timeout hatasını engellemek için default olan 10 yerine 50 olarak belirtildi.
+client = Client(config.API_KEY, config.API_SECRET, tld="com", "timeout": 50)
 
 
 # random time determining for not beeing banned from altin.in
