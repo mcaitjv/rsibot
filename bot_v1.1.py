@@ -52,7 +52,7 @@ in_position = False
 
 # ema hesaplaması için boş array(array çünkü talip paketi array istiyor)
 ema_array = np.array([])
-
+#as
 while True:
     now = datetime.datetime.now().strftime("%H:%M")
     closes = []
