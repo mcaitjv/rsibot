@@ -5,11 +5,9 @@ warnings.filterwarnings("ignore")
 from datetime import time
 from binance.client import Client
 import pandas as pd
-import sqlalchemy
 import datetime
 from time import time, sleep
 import re, requests
-import sqlite3
 import random
 import talib
 import numpy as np
@@ -40,6 +38,7 @@ def order(side, quantity, symbol, order_type=ORDER_TYPE_MARKET):
         return False
 
     return True
+
 
 # apiye client
 client = Client(config.API_KEY, config.API_SECRET,  {"verify": False, "timeout": TIMEOUT} ,tld="com")
