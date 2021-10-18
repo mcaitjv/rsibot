@@ -1,0 +1,72 @@
+Tether kurdan büyük
+08:57
+Tether kurdan büyük
+08:58
+Tether kurdan büyük
+08:59
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py", line 445, in _make_request
+    six.raise_from(e, None)
+  File "<string>", line 3, in raise_from
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py", line 440, in _make_request
+    httplib_response = conn.getresponse()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 1336, in getresponse
+    response.begin()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 306, in begin
+    version, status, reason = self._read_status()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/http/client.py", line 267, in _read_status
+    line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/socket.py", line 589, in readinto
+    return self._sock.recv_into(b)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/ssl.py", line 1071, in recv_into
+    return self.read(nbytes, buffer)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/ssl.py", line 929, in read
+    return self._sslobj.read(len, buffer)
+TimeoutError: [Errno 60] Operation timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/adapters.py", line 449, in send
+    timeout=timeout
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py", line 756, in urlopen
+    method, url, error=e, _pool=self, _stacktrace=sys.exc_info()[2]
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/util/retry.py", line 532, in increment
+    raise six.reraise(type(error), error, _stacktrace)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/packages/six.py", line 770, in reraise
+    raise value
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py", line 706, in urlopen
+    chunked=chunked,
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py", line 447, in _make_request
+    self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/urllib3/connectionpool.py", line 354, in _raise_timeout
+    self, url, "Read timed out. (read timeout=%s)" % timeout_value
+urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='api.binance.com', port=443): Read timed out. (read timeout=50)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "muco.py", line 64, in <module>
+    usdttry_price = client.get_symbol_ticker(symbol="USDTTRY")
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/binance/client.py", line 1222, in get_symbol_ticker
+    return self._get('ticker/price', data=params, version=self.PRIVATE_API_VERSION)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/binance/client.py", line 371, in _get
+    return self._request_api('get', path, signed, version, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/binance/client.py", line 334, in _request_api
+    return self._request(method, uri, signed, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/binance/client.py", line 314, in _request
+    self.response = getattr(self.session, method)(uri, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/sessions.py", line 555, in get
+    return self.request('GET', url, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/sessions.py", line 542, in request
+    resp = self.send(prep, **send_kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/sessions.py", line 655, in send
+    r = adapter.send(request, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/requests/adapters.py", line 529, in send
+    raise ReadTimeout(e, request=request)
+requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='api.binance.com', port=443): Read timed out. (read timeout=50)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "muco.py", line 67, in <module>
